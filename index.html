@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>atovio BLE</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>Atovio BLE Diagnostics & Control</h1>
+  <div class="muted">Scan, pair, stream live data, toggle modes, and log usage.</div>
+  <br>
+
+  <div class="grid">
+    <div class="card span12">
+      <div class="row">
+        <div id="status">Status: Idle</div>
+        <span class="pill" id="devName">Device: —</span>
+        <span class="pill" id="devId">ID: —</span>
+      </div>
+      <div class="row" style="margin-top:10px;">
+        <button id="btnConnect">Scan & Connect</button>
+        <button id="btnReconnect" disabled>Reconnect</button>
+        <button id="btnDisconnect" disabled>Disconnect</button>
+        <button id="btnClearLog">Clear Log</button>
+      </div>
+      <div class="grid" style="margin-top:12px;">
+        <div class="span6">
+          <label>Primary Service UUID</label>
+          <input id="uuidService" type="text" value="12345678-1234-5678-1234-56789abcdef0">
+        </div>
+        <div class="span6">
+          <label>Control/State (R/W/N)</label>
+          <input id="uuidState" type="text" placeholder="12345678-1234-5678-1234-56789abcdef0">
+        </div>
+        <div class="span6">
+          <label>Battery Voltage (R/N)</label>
+          <input id="uuidVolt" type="text" value="87654321-1234-5678-1234-56789abcdef0">
+        </div>
+        <!-- <div class="span6">
+          <label>Fan Percent (R/N)</label>
+          <input id="uuidPct" type="text" value="abcdef01-1234-5678-1234-56789abcdef0">
+        </div> -->
+        <div class="span6">
+          <label>Charging Status (R/N)</label>
+          <input id="uuidCharge" type="text" value="abcdef12-3456-7890-abcd-ef1234567890">
+        </div>
+        <div class="span6">
+          <label>Speeds/Counts (Read-only → polled)</label>
+          <input id="uuidSpeeds" type="text" value="a7654321-4321-6789-4321-abcdef012345">
+        </div>
+      </div>
+      <div class="row" style="margin-top:10px;">
+        <label class="row"><input id="asText" type="checkbox" checked> Show text if printable</label>
+        <label class="row"><input id="autoStart" type="checkbox" checked> Auto-subscribe on connect</label>
+      </div>
+    </div>
+
+    <div class="card span6">
+      <h3>Live Data</h3>
+      <div class="kv">
+        <div>Connection</div><div class="valueBox" id="valConn">Disconnected</div>
+        <div>Voltage</div><div class="valueBox" id="valVolt">—</div>
+        <div>Fan %</div><div class="valueBox" id="valPct">—</div>
+        <div>Charging</div><div class="valueBox" id="valCharge">—</div>
+        <div>State</div><div class="valueBox" id="valState">—</div>
+        <div>Speeds</div><div class="valueBox" id="valSpeeds">—</div>
+      </div>
+      <div class="row" style="margin-top:10px;">
+        <button id="btnStandard" disabled>Mode: Standard</button>
+        <button id="btnTurbo" disabled>Mode: Turbo</button>
+        <button id="btnPower" disabled>Toggle Power</button>
+      </div>
+      <div class="small">Modes/Power write via Control/State UUID. Adjust command bytes in <code>app.js</code>.</div>
+    </div>
+
+    <div class="card span6">
+      <h3>Usage History (optional)</h3>
+      <div class="small">Logs daily minutes-on and last seen voltage. Stored locally.</div>
+      <div class="kv" style="margin-top:8px;">
+        <div>Today (min)</div><div class="valueBox" id="valToday">0</div>
+        <div>Yesterday (min)</div><div class="valueBox" id="valYesterday">0</div>
+        <div>Last Voltage</div><div class="valueBox" id="valLastV">—</div>
+      </div>
+      <div class="row" style="margin-top:8px;">
+        <button id="btnResetHistory">Reset History</button>
+      </div>
+    </div>
+
+    <div class="card span12">
+      <h3>Log</h3>
+      <div id="log"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+<script src="app.js"></script>
+</body>
+</html>
