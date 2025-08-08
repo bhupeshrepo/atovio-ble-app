@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.bhupeshrepo.twa",
+        "sha256_cert_fingerprints": ["0B:5F:46:63:C4:60:02:85:7B:E0:46:F7:00:91:65:E7:A0:30:FD:A3:1F:0C:F7:3B:4E:CB:56:1D:48:EC:BC:1D"]
+      }
+    }]
